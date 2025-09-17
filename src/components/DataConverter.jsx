@@ -94,19 +94,19 @@ const DataConverter = () => {
        
        let htmlTable = `<table id="excel-table" style="border-collapse: collapse; width: ${dynamicWidth}px; border: 1px solid #000;">`
       
-      // Add header row
-      htmlTable += '<thead><tr>'
-      headers.forEach(header => {
-        htmlTable += `<th style="background-color: #2980b9; color: white; padding: 8px; border: 1px solid #000; font-weight: bold;">${header}</th>`
-      })
-      htmlTable += '</tr></thead>'
+       // Add header row
+       htmlTable += '<thead><tr>'
+       headers.forEach(header => {
+         htmlTable += `<th style="background-color: #2980b9; color: white; padding: 10px; border: 1px solid #000; font-weight: bold; font-size: 14px; font-family: Arial, Helvetica, sans-serif;">${header}</th>`
+       })
+       htmlTable += '</tr></thead>'
       
        // Add data rows
        htmlTable += '<tbody>'
        rows.forEach(row => {
          htmlTable += '<tr>'
          row.forEach(cell => {
-           htmlTable += `<td style="padding: 6px; border: 1px solid #000; word-wrap: break-word; color: #000000;">${cell || ''}</td>`
+           htmlTable += `<td style="padding: 8px; border: 1px solid #000; word-wrap: break-word; color: #000000; font-size: 14px; font-family: Arial, Helvetica, sans-serif; font-weight: normal;">${cell || ''}</td>`
          })
          htmlTable += '</tr>'
        })
@@ -120,12 +120,16 @@ const DataConverter = () => {
        tempDiv.style.top = '0px'
        tempDiv.style.width = `${dynamicWidth}px`
        tempDiv.style.backgroundColor = 'white'
-       tempDiv.style.fontFamily = 'Arial, sans-serif'
-       tempDiv.style.fontSize = '12px'
+       tempDiv.style.fontFamily = 'Arial, Helvetica, sans-serif'
+       tempDiv.style.fontSize = '14px'
+       tempDiv.style.fontWeight = 'normal'
+       tempDiv.style.lineHeight = '1.2'
        tempDiv.style.zIndex = '9999'
        tempDiv.style.opacity = '1'
        tempDiv.style.pointerEvents = 'none'
        tempDiv.style.visibility = 'visible'
+       tempDiv.style.webkitFontSmoothing = 'antialiased'
+       tempDiv.style.mozOsxFontSmoothing = 'grayscale'
       
       document.body.appendChild(tempDiv)
       
@@ -137,16 +141,18 @@ const DataConverter = () => {
       
        // Convert HTML to canvas then to PDF
        const canvas = await html2canvas(tempDiv, {
-         scale: 1,
+         scale: 2,
          useCORS: true,
          backgroundColor: '#ffffff',
          allowTaint: true,
          foreignObjectRendering: false,
-         logging: true,
+         logging: false,
          width: dynamicWidth,
          height: tempDiv.scrollHeight,
          scrollX: 0,
-         scrollY: 0
+         scrollY: 0,
+         dpi: 300,
+         letterRendering: true
        })
       
        // Remove temporary element
